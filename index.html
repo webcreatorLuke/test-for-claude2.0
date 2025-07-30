@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopNova - Premium Shopping Experience</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .cart-icon:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ff4757;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            margin: 2rem auto;
+            padding: 4rem 2rem;
+            text-align: center;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        /* Products Section */
+        .products {
+            background: rgba(255, 255, 255, 0.95);
+            margin: 2rem auto;
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(45deg, #f093fb, #f5576c);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .product-description {
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .add-to-cart {
+            width: 100%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .add-to-cart:hover {
+            background: linear-gradient(45deg, #5a6fd8, #6a42a0);
+            transform: translateY(-2px);
+        }
+
+        /* Cart Modal */
+        .cart-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .cart-content {
+            background: white;
+            width: 90%;
+            max-width: 500px;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9) translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .cart-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .close-cart {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+            transition: color 0.3s ease;
+        }
+
+        .close-cart:hover {
+            color: #333;
+        }
+
+        .cart-items {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .cart-total {
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-align: center;
+            margin: 2rem 0;
+            color: #667eea;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background: linear-gradient(45deg, #00d2ff, #3a7bd5);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .checkout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(58, 123, 213, 0.3);
+        }
+
+        /* Payment Modal */
+        .payment-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1001;
+            backdrop-filter: blur(8px);
+        }
+
+        .payment-content {
+            background: white;
+            width: 90%;
+            max-width: 600px;
+            margin: 3% auto;
+            padding: 2.5rem;
+            border-radius: 25px;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
+            animation: paymentSlideIn 0.4s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @keyframes paymentSlideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8) translateY(-100px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .payment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 3px solid #f0f0f0;
+        }
+
+        .payment-title {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .close-payment {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #666;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-payment:hover {
+            color: #333;
+            background: #f5f5f5;
+        }
+
+        .payment-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .order-summary {
+            background: linear-gradient(135deg, #f8f9ff, #e8f0ff);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 1rem;
+            border: 2px solid rgba(102, 126, 234, 0.1);
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            padding-top: 1rem;
+            margin-top: 1rem;
+            border-top: 2px solid rgba(102, 126, 234, 0.2);
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .payment-option {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .payment-option:hover {
+            border-color: #667eea;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
+        }
+
+        .payment-option.active {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #f8f9ff, #e8f0ff);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .payment-option.active::before {
+            content: '✓';
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: #667eea;
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .payment-icon {
+            font-size: 2.5rem;
+            min-width: 60px;
+        }
+
+        .payment-info h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        .payment-info p {
+            margin: 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .security-badge {
+            background: linear-gradient(45deg, #00d2ff, #3a7bd5);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            text-align: center;
+            margin: 1.5rem 0;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .continue-payment {
+            width: 100%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .continue-payment:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .continue-payment:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        /* PayPal Interface Modal */
+        .paypal-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1002;
+            backdrop-filter: blur(10px);
+        }
+
+        .paypal-content {
+            background: white;
+            width: 90%;
+            max-width: 500px;
+            margin: 5% auto;
+            border-radius: 20px;
+            box-shadow: 0 30px 100px rgba(0, 0, 0, 0.4);
+            animation: paypalSlideIn 0.4s ease;
+            overflow: hidden;
+        }
+
+        @keyframes paypalSlideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9) translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .paypal-header {
+            background: linear-gradient(135deg, #0070ba, #003087);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .paypal-logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .paypal-subtitle {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .paypal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .paypal-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .paypal-body {
+            padding: 2rem;
+        }
+
+        .paypal-order-summary {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 2px solid #e9ecef;
+        }
+
+        .paypal-order-title {
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .paypal-order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .paypal-order-item:last-child {
+            border-bottom: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            padding-top: 1rem;
+            margin-top: 0.5rem;
+            border-top: 2px solid #0070ba;
+            color: #0070ba;
+        }
+
+        .paypal-form {
+            margin-bottom: 2rem;
+        }
+
+        .paypal-form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .paypal-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .paypal-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .paypal-input:focus {
+            outline: none;
+            border-color: #0070ba;
+            box-shadow: 0 0 0 3px rgba(0, 112, 186, 0.1);
+        }
+
+        .paypal-security {
+            background: linear-gradient(135deg, #e8f5e8, #d4edda);
+            border: 2px solid #28a745;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: #155724;
+            font-weight: 500;
+        }
+
+        .paypal-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .paypal-back-btn {
+            flex: 1;
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
+
+        .paypal-back-btn:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .paypal-pay-btn {
+            flex: 2;
+            background: linear-gradient(135deg, #0070ba, #003087);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 200px;
+        }
+
+        .paypal-pay-btn:hover:not(:disabled) {
+            background: linear-gradient(135deg, #005ea6, #002b7a);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 112, 186, 0.3);
+        }
+
+        .paypal-pay-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        @media (max-width: 768px) {
+            .paypal-buttons {
+                flex-direction: column;
+            }
+            
+            .paypal-back-btn,
+            .paypal-pay-btn {
+                flex: none;
+                width: 100%;
+            }
+        }
+        footer {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">ShopNova</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <button class="cart-icon" onclick="toggleCart()">
+                🛒 Cart
+                <span class="cart-count" id="cartCount">0</span>
+            </button>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="hero" id="home">
+            <h1>Welcome to ShopNova</h1>
+            <p>Discover premium products with an extraordinary shopping experience</p>
+            <a href="#products" class="cta-button">Shop Now</a>
+        </section>
+
+        <section class="products" id="products">
+            <h2 class="section-title">Featured Products</h2>
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-image">📱</div>
+                    <div class="product-info">
+                        <h3 class="product-title">Premium Smartphone</h3>
+                        <p class="product-description">Latest flagship smartphone with cutting-edge features and stunning design</p>
+                        <div class="product-price">$899.99</div>
+                        <button class="add-to-cart" onclick="addToCart('Premium Smartphone', 899.99)">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">💻</div>
+                    <div class="product-info">
+                        <h3 class="product-title">Gaming Laptop</h3>
+                        <p class="product-description">High-performance gaming laptop for ultimate gaming experience</p>
+                        <div class="product-price">$1,499.99</div>
+                        <button class="add-to-cart" onclick="addToCart('Gaming Laptop', 1499.99)">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">🎧</div>
+                    <div class="product-info">
+                        <h3 class="product-title">Wireless Headphones</h3>
+                        <p class="product-description">Premium noise-canceling headphones with exceptional sound quality</p>
+                        <div class="product-price">$299.99</div>
+                        <button class="add-to-cart" onclick="addToCart('Wireless Headphones', 299.99)">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">⌚</div>
+                    <div class="product-info">
+                        <h3 class="product-title">Smart Watch</h3>
+                        <p class="product-description">Advanced smartwatch with health monitoring and fitness tracking</p>
+                        <div class="product-price">$399.99</div>
+                        <button class="add-to-cart" onclick="addToCart('Smart Watch', 399.99)">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">📷</div>
+                    <div class="product-info">
+                        <h3 class="product-title">Digital Camera</h3>
+                        <p class="product-description">Professional mirrorless camera for stunning photography</p>
+                        <div class="product-price">$1,299.99</div>
+                        <button class="add-to-cart" onclick="addToCart('Digital Camera', 1299.99)">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">🎮</div>
+                    <div class="product-info">
+                        <h3 class="product-title">Gaming Console</h3>
+                        <p class="product-description">Next-gen gaming console with 4K gaming capabilities</p>
+                        <div class="product-price">$499.99</div>
+                        <button class="add-to-cart" onclick="addToCart('Gaming Console', 499.99)">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2 class="cart-title">Shopping Cart</h2>
+                <button class="close-cart" onclick="toggleCart()">×</button>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <p style="text-align: center; color: #666;">Your cart is empty</p>
+            </div>
+            <div class="cart-total" id="cartTotal">Total: $0.00</div>
+            <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div class="payment-modal" id="paymentModal">
+        <div class="payment-content">
+            <div class="payment-header">
+                <h2 class="payment-title">🔒 Secure Payment</h2>
+                <button class="close-payment" onclick="closePayment()">×</button>
+            </div>
+
+            <div class="payment-section">
+                <h3 class="section-subtitle">📋 Order Summary</h3>
+                <div class="order-summary">
+                    <div id="orderSummary">
+                        <!-- Order items will be populated here -->
+                    </div>
+                </div>
+                <div class="total-display">
+                    Total: <span id="finalTotal">$0.00</span>
+                </div>
+            </div>
+
+            <div class="payment-section">
+                <h3 class="section-subtitle">💳 Select Payment Method</h3>
+                <div class="payment-methods">
+                    <div class="payment-option" onclick="selectPaymentMethod('credit-card')" data-method="Credit Card">
+                        <div class="payment-icon">💳</div>
+                        <div class="payment-info">
+                            <h3>Credit Card</h3>
+                            <p>Visa, Mastercard, American Express</p>
+                        </div>
+                    </div>
+
+                    <div class="payment-option" onclick="selectPaymentMethod('paypal')" data-method="PayPal">
+                        <div class="payment-icon">🏦</div>
+                        <div class="payment-info">
+                            <h3>PayPal</h3>
+                            <p>Pay with your PayPal account</p>
+                        </div>
+                    </div>
+
+                    <div class="payment-option" onclick="selectPaymentMethod('apple-pay')" data-method="Apple Pay">
+                        <div class="payment-icon">📱</div>
+                        <div class="payment-info">
+                            <h3>Apple Pay</h3>
+                            <p>Touch ID or Face ID</p>
+                        </div>
+                    </div>
+
+                    <div class="payment-option" onclick="selectPaymentMethod('google-pay')" data-method="Google Pay">
+                        <div class="payment-icon">🌐</div>
+                        <div class="payment-info">
+                            <h3>Google Pay</h3>
+                            <p>Fast and secure payments</p>
+                        </div>
+                    </div>
+
+                    <div class="payment-option" onclick="selectPaymentMethod('bank-transfer')" data-method="Bank Transfer">
+                        <div class="payment-icon">🏛️</div>
+                        <div class="payment-info">
+                            <h3>Bank Transfer</h3>
+                            <p>Direct bank account transfer</p>
+                        </div>
+                    </div>
+
+                    <div class="payment-option" onclick="selectPaymentMethod('crypto')" data-method="Cryptocurrency">
+                        <div class="payment-icon">₿</div>
+                        <div class="payment-info">
+                            <h3>Cryptocurrency</h3>
+                            <p>Bitcoin, Ethereum, and more</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="security-badge">
+                🔐 SSL Encrypted • 256-bit Security • PCI Compliant
+            </div>
+
+            <button class="continue-payment" id="continuePayment" onclick="continueWithPayment()" disabled>
+                Continue to Payment Details
+            </button>
+        </div>
+    </div>
+
+    <!-- PayPal Interface Modal -->
+    <div class="paypal-modal" id="paypalModal">
+        <div class="paypal-content">
+            <div class="paypal-header">
+                <button class="paypal-close" onclick="closePayPal()">×</button>
+                <div class="paypal-logo">PayPal</div>
+                <div class="paypal-subtitle">The safer, easier way to pay</div>
+            </div>
+            
+            <div class="paypal-body">
+                <div class="paypal-order-summary">
+                    <div class="paypal-order-title">📦 Your Order</div>
+                    <div id="paypalOrderItems">
+                        <!-- Order items will be populated here -->
+                    </div>
+                    <div class="paypal-order-item">
+                        <span><strong>Total Amount</strong></span>
+                        <span><strong id="paypalTotal">$0.00</strong></span>
+                    </div>
+                </div>
+
+                <div class="paypal-security">
+                    🔒 Your payment information is encrypted and secure
+                </div>
+
+                <form class="paypal-form" onsubmit="event.preventDefault(); processPayPalPayment();">
+                    <div class="paypal-form-group">
+                        <label class="paypal-label" for="paypalEmail">Email Address</label>
+                        <input 
+                            type="email" 
+                            class="paypal-input" 
+                            id="paypalEmail" 
+                            placeholder="Enter your PayPal email"
+                            required
+                        >
+                    </div>
+                    
+                    <div class="paypal-form-group">
+                        <label class="paypal-label" for="paypalPassword">Password</label>
+                        <input 
+                            type="password" 
+                            class="paypal-input" 
+                            id="paypalPassword" 
+                            placeholder="Enter your PayPal password"
+                            required
+                        >
+                    </div>
+
+                    <div class="paypal-buttons">
+                        <button type="button" class="paypal-back-btn" onclick="backToPayment()">
+                            ← Back
+                        </button>
+                        <button type="submit" class="paypal-pay-btn" id="paypalPayButton">
+                            Pay with PayPal
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 ShopNova. All rights reserved. Premium shopping experience delivered.</p>
+        </div>
+    </footer>
+
+    <script>
+        let cart = [];
+        let cartTotal = 0;
+
+        function addToCart(name, price) {
+            const existingItem = cart.find(item => item.name === name);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ name, price, quantity: 1 });
+            }
+            
+            updateCartDisplay();
+            
+            // Add visual feedback
+            const button = event.target;
+            const originalText = button.textContent;
+            button.textContent = 'Added!';
+            button.style.background = 'linear-gradient(45deg, #00d2ff, #3a7bd5)';
+            
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.style.background = 'linear-gradient(45deg, #667eea, #764ba2)';
+            }, 1000);
+        }
+
+        function removeFromCart(name) {
+            cart = cart.filter(item => item.name !== name);
+            updateCartDisplay();
+        }
+
+        function updateCartDisplay() {
+            const cartCount = document.getElementById('cartCount');
+            const cartItems = document.getElementById('cartItems');
+            const cartTotalElement = document.getElementById('cartTotal');
+            
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            cartCount.textContent = totalItems;
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p style="text-align: center; color: #666;">Your cart is empty</p>';
+            } else {
+                cartItems.innerHTML = cart.map(item => `
+                    <div class="cart-item">
+                        <div>
+                            <strong>${item.name}</strong><br>
+                            <small>Quantity: ${item.quantity} × $${item.price.toFixed(2)}</small>
+                        </div>
+                        <button onclick="removeFromCart('${item.name}')" style="background: #ff4757; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">Remove</button>
+                    </div>
+                `).join('');
+            }
+            
+            cartTotalElement.textContent = `Total: $${cartTotal.toFixed(2)}`;
+        }
+
+        function toggleCart() {
+            const cartModal = document.getElementById('cartModal');
+            cartModal.style.display = cartModal.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+            
+            toggleCart();
+            showPaymentPage();
+        }
+
+        function showPaymentPage() {
+            const paymentModal = document.getElementById('paymentModal');
+            const orderSummary = document.getElementById('orderSummary');
+            const finalTotal = document.getElementById('finalTotal');
+            
+            // Update order summary
+            orderSummary.innerHTML = cart.map(item => `
+                <div class="order-item">
+                    <span>${item.name} × ${item.quantity}</span>
+                    <span>${(item.price * item.quantity).toFixed(2)}</span>
+                </div>
+            `).join('');
+            
+            finalTotal.textContent = `${cartTotal.toFixed(2)}`;
+            paymentModal.style.display = 'block';
+        }
+
+        function closePayment() {
+            document.getElementById('paymentModal').style.display = 'none';
+        }
+
+        function selectPaymentMethod(method) {
+            // Remove active class from all payment options
+            document.querySelectorAll('.payment-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            
+            // Add active class to selected option
+            event.currentTarget.classList.add('active');
+            
+            // Enable continue button
+            document.getElementById('continuePayment').disabled = false;
+        }
+
+        function continueWithPayment() {
+            const selectedPayment = document.querySelector('.payment-option.active');
+            if (!selectedPayment) {
+                alert('Please select a payment method');
+                return;
+            }
+            
+            const method = selectedPayment.dataset.method;
+            alert(`Payment method selected: ${method}\n\nTotal: ${cartTotal.toFixed(2)}\n\nThis is a demo - no actual payment was processed.`);
+            
+            // Reset everything
+            cart = [];
+            updateCartDisplay();
+            closePayment();
+        }
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            const cartModal = document.getElementById('cartModal');
+            const paymentModal = document.getElementById('paymentModal');
+            const paypalModal = document.getElementById('paypalModal');
+            
+            if (event.target === cartModal) {
+                cartModal.style.display = 'none';
+            }
+            if (event.target === paymentModal) {
+                paymentModal.style.display = 'none';
+            }
+            if (event.target === paypalModal) {
+                paypalModal.style.display = 'none';
+            }
+        }
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
